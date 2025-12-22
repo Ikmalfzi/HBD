@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special For You</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="console-container">
+        <div class="screen-frame">
+            <div class="screen" id="screen">
+                <div id="menu-screen" class="active">
+                    <h2 class="title">Happy Birthday</h2>
+                    <p class="subtitle">Select Menu:</p>
+                    <div class="menu-items">
+                        <div class="menu-item selected" data-index="0"><i class="fas fa-envelope"></i> Surat Cinta</div>
+                        <div class="menu-item" data-index="1"><i class="fas fa-images"></i> Galeri Foto</div>
+                        <div class="menu-item" data-index="2"><i class="fas fa-music"></i> Musik</div>
+                        <div class="menu-item" data-index="3"><i class="fas fa-gamepad"></i> Main Game</div>
+                    </div>
+                </div>
+
+                <div id="app-screen" class="hidden">
+                    </div>
+            </div>
+        </div>
+
+        <div class="controls-area">
+            <div class="d-pad">
+                <button class="d-btn up" onclick="input('UP')"><i class="fas fa-caret-up"></i></button>
+                <div class="middle-row">
+                    <button class="d-btn left" onclick="input('LEFT')"><i class="fas fa-caret-left"></i></button>
+                    <div class="d-center"></div>
+                    <button class="d-btn right" onclick="input('RIGHT')"><i class="fas fa-caret-right"></i></button>
+                </div>
+                <button class="d-btn down" onclick="input('DOWN')"><i class="fas fa-caret-down"></i></button>
+            </div>
+
+            <div class="action-buttons">
+                <div class="btn-group">
+                    <button class="btn-action b" onclick="input('B')">B</button>
+                    <span>Back</span>
+                </div>
+                <div class="btn-group">
+                    <button class="btn-action a" onclick="input('A')">A</button>
+                    <span>Select</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bgm" loop></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
