@@ -1,20 +1,16 @@
 // --- KONFIGURASI DATA ---
 
-// Masukkan Link Embed Spotify (Pastikan linknya format 'embed')
+// Masukkan Link Embed Spotify (Pastikan linknya format 'embed' atau sesuai instruksi)
 const spotifyList = [
     {
         title: "Lagu Kita",
-        // Link Embed: https://open.spotify.com/embed/track/ID_LAGU
-        link: "https://open.spotify.com/embed/artist/6AjW1aE0OlIoRGdnwbHgP2?si=QY4GaarRQcGbOdoXl2h4Nw"
+        link: "https://open.spotify.com/embed/artist/6AjW1aE0OlIoRGdnwbHgP2?si=QY4GaarRQcGbOdoXl2h4Nw" // Ganti dengan link embed asli
     },
     {
         title: "Playlist Galau",
-        // Bisa juga masukkan link Playlist
-        link: "https://open.spotify.com/embed/artist/51kyrUsAVqUBcoDEMFkX12?si=nEiMt23ASfyGlCd85hr_9w"
+        link: "https://open.spotify.com/embed/artist/51kyrUsAVqUBcoDEMFkX12?si=nEiMt23ASfyGlCd85hr_9w" // Ganti dengan link embed asli
     }
 ];
-
-// ... (Data Photos dan Letter biarkan samaSelamat ulang tahun ya!<br> Aku sengaja bikin ini buat kamu.<br> Semoga kamu suka sama hadiah sederhana ini.<br><br> Coba deh mainin gamenya, ada pesan rahasia kalau kamu kalah :p<br><br>) ...
 
 const photos = [
     { src: "Foto1.png", caption: "Kenangan Pertama" },
@@ -23,8 +19,9 @@ const photos = [
 ];
 
 const letterText = `
-    Hai Sayang! ❤️<br><br>Meskipun tidak ada Lilin di atas kue tart yang dinyalakan, jangan padamkan nyala doa di hari kelahiran. Jangan padamkan harapan dari doa-doa yang sempat dipanjatkan.
-<br><br>
+    Hai Sayang! ❤️<br><br>
+    Meskipun tidak ada Lilin di atas kue tart yang dinyalakan, jangan padamkan nyala doa di hari kelahiran. 
+    Jangan padamkan harapan dari doa-doa yang sempat dipanjatkan.<br><br>
     I Love You!
 `;
 
@@ -34,7 +31,7 @@ let menuIdx = 0;
 let photoIdx = 0;
 let musicIdx = 0;
 let audio = document.getElementById('bgm');
-let gameInterval; // Untuk menyimpan timer game
+let gameInterval; 
 
 // --- DOM ELEMENTS ---
 const menuScreen = document.getElementById('menu-screen');
@@ -42,7 +39,6 @@ const appScreen = document.getElementById('app-screen');
 const menuItems = document.querySelectorAll('.menu-item');
 
 // --- INPUT CONTROLLER ---
-// Mendukung Klik Tombol Layar & Keyboard PC
 function input(key) {
     if (state === "MENU") handleMenu(key);
     else if (state === "LETTER") handleBack(key);
@@ -57,12 +53,13 @@ document.addEventListener('keydown', (e) => {
     if(e.key === "ArrowDown") input("DOWN");
     if(e.key === "ArrowLeft") input("LEFT");
     if(e.key === "ArrowRight") input("RIGHT");
-    if(e.key === "Enter") input("A"); // A
-    if(e.key === "Backspace" || e.key === "Escape") input("B"); // B
+    if(e.key === "Enter") input("A"); 
+    if(e.key === "Backspace" || e.key === "Escape") input("B"); 
 });
 
 // --- MENU LOGIC ---
 function handleMenu(key) {
+    // Hanya ada 4 Menu sekarang (0, 1, 2, 3)
     if (key === "DOWN") menuIdx = (menuIdx + 1) % 4;
     if (key === "UP") menuIdx = (menuIdx - 1 + 4) % 4;
     if (key === "A") openApp(menuIdx);
@@ -82,6 +79,9 @@ function openApp(index) {
     menuScreen.classList.add('hidden');
     appScreen.classList.remove('hidden');
     
+    // Reset kelas gallery mode setiap buka aplikasi
+    appScreen.classList.remove('gallery-mode');
+    
     if (index === 0) loadLetter();
     if (index === 1) loadGallery();
     if (index === 2) loadMusic();
@@ -89,11 +89,10 @@ function openApp(index) {
 }
 
 function backToMenu() {
-    // Matikan game jika sedang berjalan
     if (state === "GAME") clearInterval(gameInterval);
 
     state = "MENU";
-    appScreen.innerHTML = ""; // Bersihkan layar
+    appScreen.innerHTML = "";
     appScreen.classList.add('hidden');
     menuScreen.classList.remove('hidden');
     menuScreen.classList.add('active');
@@ -105,22 +104,22 @@ function handleBack(key) {
 
 // --- APPS FEATURES ---
 
-// 1. Surat
+// 1. SURAT
 function loadLetter() {
     state = "LETTER";
     appScreen.innerHTML = `<div class="scroll-text">${letterText}</div>`;
 }
-// 2. Galeri
+
+// 2. GALERI
 function loadGallery() {
     state = "GALLERY";
     photoIdx = 0;
+    appScreen.classList.add('gallery-mode'); // Tambahkan mode layar penuh
     renderPhoto();
 }
 
-// FUNGSI RENDER FOTO YANG BARU (AGAR FULL LAYAR)
 function renderPhoto() {
     const p = photos[photoIdx];
-    // Kita hanya menampilkan gambar saja agar full
     appScreen.innerHTML = `
         <img src="${p.src}" class="gallery-full-img">
         <div class="gallery-caption-overlay">${p.caption}</div>
@@ -133,25 +132,15 @@ function handleGallery(key) {
     if (key === "B") backToMenu();
 }
 
-function handleGallery(key) {
-    if (key === "RIGHT") { photoIdx = (photoIdx + 1) % photos.length; renderPhoto(); }
-    if (key === "LEFT") { photoIdx = (photoIdx - 1 + photos.length) % photos.length; renderPhoto(); }
-    if (key === "B") backToMenu();
-}
-
-// 3. Musik// --- 3. FITUR: SPOTIFY PLAYER ---
-
+// 3. MUSIK
 function loadMusic() {
     state = "MUSIC";
-    // Hentikan audio background jika ada (biar gak tabrakan suaranya)
     if(audio) audio.pause(); 
     renderMusicUI();
 }
 
 function renderMusicUI() {
     const song = spotifyList[musicIdx];
-    
-    // Kita masukkan Iframe Spotify ke dalam layar
     appScreen.innerHTML = `
         <div class="music-container" style="padding: 10px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
             <h3 style="font-size:12px; margin-bottom:10px; color:#555;">${song.title}</h3>
@@ -174,7 +163,6 @@ function renderMusicUI() {
 }
 
 function handleMusic(key) {
-    // Tombol Atas/Bawah untuk ganti iframe lagu
     if (key === "UP" || key === "RIGHT") { 
         musicIdx = (musicIdx + 1) % spotifyList.length; 
         renderMusicUI(); 
@@ -186,8 +174,7 @@ function handleMusic(key) {
     if (key === "B") backToMenu();
 }
 
-
-// --- 4. TETRIS GAME ENGINE (The Fix) ---
+// 4. TETRIS GAME
 let board = [];
 let score = 0;
 let currentPiece;
@@ -209,13 +196,12 @@ function initGame() {
     currentPiece = newPiece();
     drawGame();
     if (gameInterval) clearInterval(gameInterval);
-    gameInterval = setInterval(gameLoop, 1000); // 1 Detik per drop
+    gameInterval = setInterval(gameLoop, 1000);
 }
 
 function newPiece() {
     const pieces = 'ILJOTSZ';
     const type = pieces[Math.floor(Math.random() * pieces.length)];
-    // Definisi bentuk
     let shape;
     if(type==='I') shape=[[1,1,1,1]];
     else if(type==='L') shape=[[0,0,1],[1,1,1]];
@@ -225,28 +211,19 @@ function newPiece() {
     else if(type==='S') shape=[[0,1,1],[1,1,0]];
     else if(type==='T') shape=[[0,1,0],[1,1,1]];
 
-    // Warna acak 1-7
     const color = Math.floor(Math.random() * 7) + 1;
-    
-    return {
-        shape, 
-        color,
-        x: Math.floor(COLS/2) - Math.floor(shape[0].length/2),
-        y: 0
-    };
+    return { shape, color, x: Math.floor(COLS/2) - Math.floor(shape[0].length/2), y: 0 };
 }
 
 function drawGame() {
     const canvas = document.getElementById('tetris');
     if(!canvas) return;
     const ctx = canvas.getContext('2d');
-    const BLOCK_SIZE = canvas.width / COLS; // 15px
+    const BLOCK_SIZE = canvas.width / COLS;
 
-    // Clear
     ctx.fillStyle = '#2f3542';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw Board (Tumpukan)
     board.forEach((row, y) => {
         row.forEach((val, x) => {
             if (val > 0) {
@@ -256,7 +233,6 @@ function drawGame() {
         });
     });
 
-    // Draw Current Piece
     if(currentPiece) {
         ctx.fillStyle = COLORS[currentPiece.color];
         currentPiece.shape.forEach((row, y) => {
@@ -276,9 +252,7 @@ function gameLoop() {
         merge();
         clearLines();
         currentPiece = newPiece();
-        if (collision()) {
-            gameOver();
-        }
+        if (collision()) gameOver();
     }
     drawGame();
 }
@@ -289,11 +263,7 @@ function collision() {
             if(currentPiece.shape[y][x] !== 0) {
                 let boardY = y + currentPiece.y;
                 let boardX = x + currentPiece.x;
-                
-                // Cek batas bawah, kiri, kanan, atau tabrakan blok
-                if(boardY >= ROWS || boardX < 0 || boardX >= COLS || board[boardY][boardX] !== 0) {
-                    return true;
-                }
+                if(boardY >= ROWS || boardX < 0 || boardX >= COLS || board[boardY][boardX] !== 0) return true;
             }
         }
     }
@@ -303,9 +273,7 @@ function collision() {
 function merge() {
     currentPiece.shape.forEach((row, y) => {
         row.forEach((val, x) => {
-            if (val) {
-                board[y + currentPiece.y][x + currentPiece.x] = currentPiece.color;
-            }
+            if (val) board[y + currentPiece.y][x + currentPiece.x] = currentPiece.color;
         });
     });
 }
@@ -317,7 +285,7 @@ function clearLines() {
             board.unshift(Array(COLS).fill(0));
             score += 100;
             document.getElementById('score').innerText = score;
-            y++; // Cek baris yang sama lagi
+            y++;
         }
     }
 }
@@ -325,9 +293,7 @@ function clearLines() {
 function rotate() {
     const prevShape = currentPiece.shape;
     currentPiece.shape = currentPiece.shape[0].map((val, index) => currentPiece.shape.map(row => row[index]).reverse());
-    if (collision()) {
-        currentPiece.shape = prevShape; // Batal putar jika nabrak
-    }
+    if (collision()) currentPiece.shape = prevShape;
 }
 
 function handleGame(key) {
@@ -343,7 +309,6 @@ function gameOver() {
     clearInterval(gameInterval);
     appScreen.innerHTML = `
         <div style="height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:20px; background:#fff;">
-        <h3 style="color:#ff6b81; margin-bottom:10px;">gameOver</h3>
             <h3 style="color:#ff6b81; margin-bottom:10px;">INGET YA!</h3>
             <p style="font-size:13px; color:#555;">Walaupun kamu kalah,</p>
             <p style="font-size:13px; color:#555;">tapi kamu selalu menang</p>

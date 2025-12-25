@@ -34,28 +34,25 @@ body {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
 }
-/* --- TAMBAHAN CSS UNTUK GALERI FULL LAYAR --- */
 
-/* Hapus padding default pada layar aplikasi saat mode galeri */
+/* --- TAMBAHAN CSS UNTUK GALERI FULL LAYAR --- */
 #app-screen.gallery-mode {
     padding: 0 !important;
 }
 
-/* Gambar agar memenuhi layar */
 .gallery-full-img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Gambar akan mengisi penuh tanpa gepeng */
-    border-radius: 15px; /* Sesuai dengan sudut layar */
+    object-fit: cover;
+    border-radius: 15px;
 }
 
-/* Caption (Teks) di atas gambar */
 .gallery-caption-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); /* Latar belakang transparan */
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
     color: white;
     padding: 15px;
     text-align: center;
@@ -64,6 +61,7 @@ body {
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
 }
+
 /* Layar */
 .screen-frame {
     background: #fff;
@@ -73,7 +71,7 @@ body {
 }
 
 .screen {
-    background: #f8f9fa; /* Warna layar terang bersih */
+    background: #f8f9fa;
     height: 250px;
     border-radius: 15px;
     overflow: hidden;
@@ -133,16 +131,13 @@ body {
     padding: 0 10px;
 }
 
-/* D-PAD Modern */
 .d-pad {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.middle-row {
-    display: flex;
-}
+.middle-row { display: flex; }
 
 .d-btn {
     width: 35px;
@@ -163,10 +158,7 @@ body {
 .d-center { width: 35px; height: 35px; background: rgba(255,255,255,0.6); }
 
 /* Tombol Aksi Bulat */
-.action-buttons {
-    display: flex;
-    gap: 15px;
-}
+.action-buttons { display: flex; gap: 15px; }
 
 .btn-group {
     display: flex;
@@ -195,7 +187,6 @@ body {
 }
 
 .btn-action:active { transform: scale(0.9); }
-
 .btn-action.a { background: linear-gradient(to bottom right, #ff6b81, #ff4757); }
 .btn-action.b { background: linear-gradient(to bottom right, #7bed9f, #2ed573); }
 
@@ -203,8 +194,4 @@ body {
 .hidden { display: none !important; }
 .active { display: block; }
 .scroll-text { height: 100%; padding: 20px; overflow-y: auto; font-size: 14px; line-height: 1.6; color: #444; text-align: center; }
-.gallery-container { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-.gallery-img { max-width: 90%; max-height: 160px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 .music-container { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #444; }
-.music-disc { font-size: 50px; color: #ff6b81; animation: spin 3s linear infinite; margin-bottom: 20px; }
-@keyframes spin { 100% { transform: rotate(360deg); } }
