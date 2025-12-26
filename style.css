@@ -70,14 +70,58 @@ body {
     box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
 }
 
+/* --- GANTI BAGIAN INI DI STYLE.CSS --- */
+
+/* Layar Utama */
 .screen {
     background: #f8f9fa;
-    height: 290px;
+    height: 250px; /* Tinggi tetap */
     border-radius: 15px;
-    overflow: hidden;
+    /* Ubah overflow hidden menjadi hidden hanya untuk x, 
+       tapi kita atur scroll pada anak elemennya agar rapi */
+    overflow: hidden; 
     position: relative;
     display: flex;
     flex-direction: column;
+}
+
+/* Tambahkan ini agar Menu dan Aplikasi bisa discroll jika kepanjangan */
+#menu-screen, #app-screen {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto; /* KUNCI: Ini yang bikin bisa discroll */
+    overflow-x: hidden;
+    
+    /* Agar scrollbar tidak terlihat tapi tetap bisa discroll (Estetik) */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Sembunyikan scrollbar untuk Chrome/Safari/Opera */
+#menu-screen::-webkit-scrollbar, 
+#app-screen::-webkit-scrollbar {
+    display: none;
+}
+
+/* Menu Style - Pastikan padding aman agar tidak kepotong saat scroll */
+.menu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 20px 20px 20px; /* Tambah padding bawah */
+}
+
+/* Utility Classes Update */
+.scroll-text { 
+    height: 100%; 
+    padding: 20px; 
+    /* overflow-y auto sudah dihandle oleh #app-screen, 
+       tapi dibiarkan aman double protection */
+    overflow-y: auto; 
+    font-size: 13px; /* Sedikit dikecilkan biar muat banyak */
+    line-height: 1.6; 
+    color: #444; 
+    text-align: center; 
 }
 
 /* Menu Style */
